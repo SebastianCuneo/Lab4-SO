@@ -1,34 +1,33 @@
-# Lab4-SO
-Laboratorio 4 Sistemas Operativos UCU 2025
+# Comandos utilizados Laboratorio 4
 
-Scripts:
-mkdir -p /home/seba/so-lab4/fuente	
-Intento inicial de crear directorio completo (falló por permisos, usuario incorrecto).
-mkdir -p /home/seba/so-lab4/destino	
-Igual que el anterior, para la carpeta destino (también falló).
-sudo mkdir -p /home/seba/so-lab4/fuente	
-Creó la carpeta bajo /home/seba usando privilegios de root.
-sudo mkdir -p /home/seba/so-lab4/destino	
-Idem anterior, para la carpeta destino.
-find /home/seba/so-lab4/fuente -type f -mtime -1 -exec cp --parents {} /home/seba/so-lab4/destino/ \;	
-Buscó archivos modificados en 24 h en /home/seba/.../fuente y los copió con toda la ruta absoluta.
-ls -R /home/seba/so-lab4/destino/	
-Listó recursivamente el contenido del destino (mostró toda la jerarquía /home/seba/...).
-mkdir -p ~/so-lab4/fuente ~/so-lab4/destino	
-Creó correctamente las carpetas fuente y destino dentro de tu home real (/home/aroti/so-lab4/...).
-ls -ld ~/so-lab4 ~/so-lab4/{fuente,destino}	
-Verificó permisos y propietario de las carpetas creadas.
-sudo chown -R $(whoami):$(whoami) ~/so-lab4	
-Ajustó recursivamente propietario y grupo de so-lab4 para tu usuario.
-chmod -R u+rwx ~/so-lab4	
-Dio permisos de lectura, escritura y ejecución a tu usuario sobre todo so-lab4.
-echo "hola" > ~/so-lab4/fuente/archivo1.txt	
-Generó un archivo de prueba en fuente con contenido “hola”.
-find ~/so-lab4/fuente -type f -mtime -1 -exec cp --parents {} ~/so-lab4/destino/ \;	
-Buscó y copió archivos modificados en 24 h, dentro de tu home, replicando la ruta completa desde ~/so-lab4.
-ls -R ~/so-lab4/destino/	
-Listó recursivamente el contenido de la carpeta destino y mostró la jerarquía copiada.
-cd ~/so-lab4	
-Se situó en el directorio padre para usar rutas relativas.
-find fuente -type f -mtime -1 -exec cp --parents {} destino/ \;	
-Variante usando ruta relativa: buscó en fuente y copió solo fuente/... bajo destino, sin recrear toda la ruta /home.
+
+| Comando                                                                                                            | Descripción                                                                                                                      |
+|--------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| **Instalación y uso de WSL**                                                                                       |                                                                                                                                  |
+| `wsl --install`                                                                                                    | Instala y configura Windows Subsystem for Linux (WSL) con Ubuntu por defecto.                                                    |
+| **Reto 1: Información del sistema (Bash en WSL)**                                                                  |                                                                                                                                  |
+| `lscpu`                                                                                                            | Muestra información detallada de la CPU.                                                                                          |
+| `free -h`                                                                                                          | Muestra uso de memoria (RAM) en formato legible (“human readable”).                                                               |
+| `df -h`                                                                                                            | Muestra uso de espacio en disco para cada sistema de archivos en formato legible.                                                 |
+| **Reto 2: Gestión de procesos**                                                                                    |                                                                                                                                  |
+| `ps aux --sort=-%cpu \| head -n 11`                                                                                 | Lista todos los procesos en Bash, ordenados por uso de CPU (descendente), y muestra las 10 entradas principales (+ cabecera).    |
+| `Get-Process \| Sort-Object CPU -Descending \| Select-Object -First 10`                                             | En PowerShell, lista los 10 procesos que más CPU usan.                                                                            |
+| `Stop-Process -Id <PID> -Force`                                                                                    | Termina forzosamente el proceso cuyo identificador es `<PID>` en PowerShell.                                                      |
+| **Reto 3: Automatización (Bash)**                                                                                  |                                                                                                                                  |
+| `mkdir -p /home/seba/so-lab4/fuente`                                                                                | Intento inicial de crear `/home/seba/.../fuente` (falló por permisos).                                                            |
+| `mkdir -p /home/seba/so-lab4/destino`                                                                               | Intento inicial de crear `/home/seba/.../destino` (falló por permisos).                                                           |
+| `sudo mkdir -p /home/seba/so-lab4/fuente`                                                                            | Creó la carpeta fuente en `/home/seba` usando privilegios de root (no recomendable).                                              |
+| `sudo mkdir -p /home/seba/so-lab4/destino`                                                                           | Creó la carpeta destino en `/home/seba` con sudo.                                                                                 |
+| `find /home/seba/so-lab4/fuente -type f -mtime -1 -exec cp --parents {} /home/seba/so-lab4/destino/ \;`             | Buscó y copió archivos modificados en 24 h, reproduciendo toda la ruta absoluta (jerarquía desde `/home`).                        |
+| `ls -R /home/seba/so-lab4/destino/`                                                                                 | Listó recursivamente el contenido de la carpeta destino en `/home/seba`.                                                          |
+| `mkdir -p ~/so-lab4/fuente ~/so-lab4/destino`                                                                       | Creó las carpetas `fuente` y `destino` dentro de tu home real (`/home/aroti/so-lab4`).                                            |
+| `ls -ld ~/so-lab4 ~/so-lab4/{fuente,destino}`                                                                       | Verificó permisos y propietario de las carpetas recién creadas.                                                                   |
+| `sudo chown -R $(whoami):$(whoami) ~/so-lab4`                                                                        | Ajustó recursivamente propietario y grupo de `so-lab4` a tu usuario en WSL.                                                       |
+| `chmod -R u+rwx ~/so-lab4`                                                                                          | Dio permisos de lectura, escritura y ejecución sobre todo `~/so-lab4`.                                                             |
+| `echo "hola" > ~/so-lab4/fuente/archivo1.txt`                                                                       | Generó un archivo de prueba en el directorio `fuente` con texto “hola”.                                                            |
+| `find ~/so-lab4/fuente -type f -mtime -1 -exec cp --parents {} ~/so-lab4/destino/ \;`                               | Copió los archivos nuevos o modificados en 24 h, replicando la ruta completa desde `~/so-lab4`.                                  |
+| `ls -R ~/so-lab4/destino/`                                                                                          | Listó recursivamente el contenido de `~/so-lab4/destino`, mostrando la jerarquía copiada.                                         |
+| `cd ~/so-lab4`                                                                                                      | Se posicionó en el directorio padre para trabajar con rutas relativas.                                                             |
+| `find fuente -type f -mtime -1 -exec cp --parents {} destino/ \;`                                                    | Variante con ruta relativa: copió solo la subcarpeta `fuente/...` dentro de `destino`, sin recrear toda la estructura `/home`.    |
+
+
